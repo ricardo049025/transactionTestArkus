@@ -39,6 +39,19 @@ namespace Infraestructure.Data.Repositories
             
         }
 
+        public bool addRange(List<TEntity> entity)
+        {
+            try
+            {
+                this.context.Set<TEntity>().AddRange(entity);
+                this.context.SaveChanges();
+                return true;
+            }
+            catch (Exception) { return false; }
+
+        }
+
+
         public bool update(TEntity entity)
         {
             try

@@ -32,6 +32,11 @@ namespace Service.Main
             return this.repository.add(entity);
         }
 
+        public bool addRange(List<TEntity> entities)
+        {
+            return this.repository.addRange(entities);
+        }
+
         public bool update(TEntity entity)
         {
             return this.repository.update(entity);

@@ -18,5 +18,40 @@ namespace Service.Main
         {
             this.repository = repository;
         }
+
+        /// <summary>
+        /// Ricardo Martinez.
+        /// Method for generate Transactions 
+        /// betweens date ranges
+        /// </summary>
+        /// <param name="startDate">Start Date</param>
+        /// <param name="endDate">End Date</param>
+        /// <returns></returns>
+        public bool GenerateTransactionsByDateRange(DateTime startDate, DateTime endDate)
+        {
+            DateTime start = startDate;
+            Random random = new Random();
+            List<Transaction> transactions = new List<Transaction>();
+
+            for (int i = 0; i < (endDate - startDate).TotalDays; i++)
+            {
+                Transaction tran = new Transaction();
+                tran.Date = start.AddDays((i + 1));
+                tran.Amount = random.Next(500, 10000);
+                tran.Description = $"Transaction No {(i + 1)} by Amount of ${tran.Amount}";
+                tran.InvoiceStatusId = random.Next(1, 3);
+                transactions.Add(tran);
+            }
+
+            return this.repository.addRange(transactions);
+        }
+        /// <summary>
+        /// Ricardo Martinez.
+        /// Transactions that are billed must be 
+        /// marked as billed when the invoice is generated
+        /// </summary>
+        /// <returns></returns>
+        public bool invoiceTransaction()
+
     }
 }

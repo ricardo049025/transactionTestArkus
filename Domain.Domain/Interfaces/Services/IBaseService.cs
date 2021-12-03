@@ -11,6 +11,7 @@ namespace Domain.Domain.Interfaces.Services
         IEnumerable<TEntity> getAll();
         TEntity getById(int id);
         bool add(TEntity entity);
+        bool addRange(List<TEntity> entity);
         bool update(TEntity entity);
         bool delete(int id);
     }

@@ -23,10 +23,17 @@ namespace webApi.Controllers
             this.service = service;
         }
 
-        [HttpGet]
-        public IEnumerable<InvoiceStatus> Get()
+        /// <summary>
+        /// Ricardo Martinez. 
+        /// Creating transactions from request 
+        /// of the host or any client.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("AddTransaction")]        
+        public ActionResult<Transaction> PostTransactions([FromBody] Transaction transaction )
         {
-            return service.getAll();
+            return null;
         }
     }
 }

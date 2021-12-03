@@ -8,6 +8,6 @@ namespace Domain.Domain.Interfaces.Services
 {
     public interface ITransactionService : IBaseService<Transaction>
     {
-
+        public bool GenerateTransactionsByDateRange(DateTime startDate, DateTime endDate);
     }
 }
