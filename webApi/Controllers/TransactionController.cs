@@ -37,9 +37,8 @@ namespace webApi.Controllers
         /// of the host or any client.
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        [Route("getAll")]
-        public IEnumerable<Transaction> GetInvoices()
+        [HttpGet]        
+        public IEnumerable<Transaction> GetTransactions()
         {
             return transactionService.getAll();
         }
