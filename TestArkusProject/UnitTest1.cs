@@ -21,10 +21,12 @@ namespace TestArkusProject
         private IInvoiceStatusRepository invoiceStatusRepository;
         private ITransactionRepository transactionRepository;
         private IInvoiceRepository invoiceRepository;
+        private IPaymentRepository paymentRepository;
 
         private IInvoiceStatusService invoiceStatusService;
         private ITransactionService transactionService;
         private IInvoiceService invoiceService;
+        private IPaymentService paymentService;
 
 
         private ApiContext context;
@@ -38,10 +40,13 @@ namespace TestArkusProject
             invoiceStatusRepository = new InvoiceStatusRepository(context);
             transactionRepository = new TransactionRepository(context);
             invoiceRepository = new InvoiceRepository(context);
+            paymentRepository = new PaymentRepository(context);
+
 
             invoiceStatusService = new InvoiceStatusService(invoiceStatusRepository);
             transactionService = new TransactionService(transactionRepository);
-            invoiceService = new InvoiceService(invoiceRepository);
+            invoiceService = new InvoiceService(invoiceRepository, transactionRepository);
+            paymentService = new PaymentService(paymentRepository, transactionRepository);
         }
         #endregion
 
@@ -88,7 +93,10 @@ namespace TestArkusProject
             DateTime startDate = new DateTime(2021,12,1);
             DateTime endDate = new DateTime(2021, 12, 15);
 
-            Assert.AreEqual(true, transactionService.GenerateTransactionsByDateRange(startDate, endDate));
+            var transactions = transactionService.GenerateTransactionsByDateRange(startDate, endDate);
+            
+            Assert.AreEqual(true, transactions.ToList().Count != 0 ? true : false);
+
         }
 
         /// <summary>
@@ -103,12 +111,38 @@ namespace TestArkusProject
             DateTime endDate = new DateTime(2021, 12, 15);            
             transactionService.GenerateTransactionsByDateRange(startDate, endDate);
 
-            //Retrive transactions to invoice
+            //Retrive transactions to invoice only take 5 records
             IEnumerable<Transaction> transactions = transactionService.getAll().Take(5);
-           
-            
+
+            //Generate billed Transaction
+            Assert.AreEqual(true,this.invoiceService.invoiceTransaction(transactions));
 
         }
+
+        /// <summary>
+        /// Method for add payment to transaction
+        /// </summary>
+        [Test]
+        public void AddPaymentInvoice()
+        {
+            //Generating transactions
+            DateTime startDate = new DateTime(2021, 12, 1);
+            DateTime endDate = new DateTime(2021, 12, 15);
+            transactionService.GenerateTransactionsByDateRange(startDate, endDate);
+
+            //Retrive transactions to invoice only take 5 records
+            IEnumerable<Transaction> transactions = transactionService.getAll().Take(5);
+
+            //Generate billed Transaction
+            this.invoiceService.invoiceTransaction(transactions);
+
+            //getting Invoices for make the payment
+            IEnumerable<Invoice> invoices = this.invoiceService.getAllInvoiceWithTransaction();
+
+            //Adding Payment and update status
+            Assert.AreEqual(true, this.paymentService.AddPaymetToInvoices(invoices).ToList().Count != 0 ? true : false);
+        }
+
 
         #endregion
     }

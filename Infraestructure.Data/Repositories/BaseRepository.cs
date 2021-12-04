@@ -39,7 +39,7 @@ namespace Infraestructure.Data.Repositories
             
         }
 
-        public bool addRange(List<TEntity> entity)
+        public bool addRange(IEnumerable<TEntity> entity)
         {
             try
             {
@@ -47,7 +47,11 @@ namespace Infraestructure.Data.Repositories
                 this.context.SaveChanges();
                 return true;
             }
-            catch (Exception) { return false; }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex);
+                return false; 
+            }
 
         }
 
@@ -64,12 +68,29 @@ namespace Infraestructure.Data.Repositories
             
         }
 
+        public bool updateRange(IEnumerable<TEntity> entity)
+        {
+            try
+            {
+                this.context.Set<TEntity>().UpdateRange(entity);
+                this.context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
+
+        }
+
         public bool delete(int id)
         {
             try
             {
                 var entity = this.context.Set<TEntity>().Find(id);
                 this.context.Set<TEntity>().Remove(entity);
+                this.context.SaveChanges();
                 return true;
             }
             catch (Exception){return false;}

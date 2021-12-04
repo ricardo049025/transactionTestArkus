@@ -8,5 +8,6 @@ namespace Domain.Domain.Interfaces
 {
     public interface IInvoiceRepository : IBaseRepository<Invoice>
     {
+        public IEnumerable<Invoice> getInvoiceTransaction();
     }
 }

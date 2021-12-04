@@ -42,6 +42,11 @@ namespace Service.Main
             return this.repository.update(entity);
         }
 
+        public bool updateRange(List<TEntity> entities)
+        {
+            return this.repository.updateRange(entities);
+        }
+
         public bool delete(int id)
         {
             return this.repository.delete(id);

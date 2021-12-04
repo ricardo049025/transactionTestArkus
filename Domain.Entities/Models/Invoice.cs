@@ -11,9 +11,12 @@ namespace Domain.Entities.Models
     public class Invoice
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
         public int Id { set; get; }
+
         [Required]
-        public string DateInvoce { set; get; }
+        public DateTime DateInvoce { set; get; }
 
         [ForeignKey("TransactionId")]
         public int? TransactionId { set; get; }

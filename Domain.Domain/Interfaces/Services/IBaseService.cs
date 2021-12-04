@@ -13,6 +13,7 @@ namespace Domain.Domain.Interfaces.Services
         bool add(TEntity entity);
         bool addRange(List<TEntity> entity);
         bool update(TEntity entity);
+        bool updateRange(List<TEntity> entity);
         bool delete(int id);
     }
 }

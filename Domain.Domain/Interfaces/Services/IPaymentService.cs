@@ -8,6 +8,6 @@ namespace Domain.Domain.Interfaces.Services
 {
     public interface IPaymentService : IBaseService<Payment>
     {
-
+        IEnumerable<Payment> AddPaymetToInvoices(IEnumerable<Invoice> invoices);
     }
 }

@@ -13,10 +13,10 @@ namespace Service.Main
     public class TransactionService : BaseService<Transaction>, ITransactionService
     {
         public ITransactionRepository repository;
-
+        
         public TransactionService(ITransactionRepository repository) : base(repository)
         {
-            this.repository = repository;
+            this.repository = repository;            
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Service.Main
         /// <param name="startDate">Start Date</param>
         /// <param name="endDate">End Date</param>
         /// <returns></returns>
-        public bool GenerateTransactionsByDateRange(DateTime startDate, DateTime endDate)
+        public IEnumerable<Transaction> GenerateTransactionsByDateRange(DateTime startDate, DateTime endDate)
         {
             DateTime start = startDate;
             Random random = new Random();
@@ -39,19 +39,20 @@ namespace Service.Main
                 tran.Date = start.AddDays((i + 1));
                 tran.Amount = random.Next(500, 10000);
                 tran.Description = $"Transaction No {(i + 1)} by Amount of ${tran.Amount}";
-                tran.InvoiceStatusId = random.Next(1, 3);
+                tran.InvoiceStatusId = 1;
                 transactions.Add(tran);
             }
 
-            return this.repository.addRange(transactions);
+            this.repository.addRange(transactions);
+
+            return transactions;
         }
-        /// <summary>
-        /// Ricardo Martinez.
-        /// Transactions that are billed must be 
-        /// marked as billed when the invoice is generated
-        /// </summary>
-        /// <returns></returns>
-        public bool invoiceTransaction()
+
+        public bool existsTransaction(int id)
+        {
+            return (repository.getById(id) == null ? false : true);
+        }
+        
 
     }
 }

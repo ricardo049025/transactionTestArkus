@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Domain.Domain.Interfaces;
 using Domain.Entities;
 using Domain.Entities.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infraestructure.Data.Repositories
 {
@@ -17,5 +18,17 @@ namespace Infraestructure.Data.Repositories
         {
             this.context = context;
         }
+
+        /// <summary>
+        /// Ricardo Martinez.
+        /// Get all the invoices with its
+        /// transaction record
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Invoice> getInvoiceTransaction()
+        {
+            return this.context.invoices.Include(x=> x.Transaction);
+        }
+
     }
 }

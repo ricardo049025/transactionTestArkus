@@ -12,9 +12,12 @@ namespace Domain.Domain.Interfaces
         TEntity getById(int id);
         bool add(TEntity entity);
 
-        bool addRange(List<TEntity> entites);
+        bool addRange(IEnumerable<TEntity> entites);
 
         bool update(TEntity entity);
+
+        bool updateRange(IEnumerable<TEntity> entity);
+
         bool delete(int id);
 
     }
